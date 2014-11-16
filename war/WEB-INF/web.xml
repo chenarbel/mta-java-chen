@@ -12,6 +12,17 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-name>Mta_java_chen</servlet-name>
 		<url-pattern>/mta_java_chen</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>Ex03_Area</servlet-name>
+		<servlet-class>com.mta.chen.Ex03_Area_calculation</servlet-class>
+	</servlet>
+		
+	<servlet-mapping>
+		<servlet-name>Ex03_Area</servlet-name>
+		<url-pattern>/ex_03 area</url-pattern>
+	</servlet-mapping>
+		
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
