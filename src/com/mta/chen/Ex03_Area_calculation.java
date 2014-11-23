@@ -10,7 +10,7 @@ public class Ex03_Area_calculation extends HttpServlet{//רספונס ורקווסט הם קלט פ
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) //מחזירה למסך את ההדפסה, ממנה קוראים לפרינט
 			throws IOException{
 		resp.setContentType("text/html");//הבדל בין פליין לאקסמל הוא שפליין זה כתב קטן השני גדול
-		resp.getWriter().println("my ex 03");
+		resp.getWriter().println("hello world");
 	//מיפוי בין קוד לווב
 	}
 			
