@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xmlns="http://java.sun.com/xml/ns/javaee"
-xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
-http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
 	<servlet>
 		<servlet-name>Mta_java_chen</servlet-name>
 		<servlet-class>com.mta.chen.Mta_java_chenServlet</servlet-class>
 	</servlet>
+	
 	<servlet-mapping>
 		<servlet-name>Mta_java_chen</servlet-name>
 		<url-pattern>/mta_java_chen</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
-		<servlet-name>Ex03_Area</servlet-name>
-		<servlet-class>com.mta.chen.Ex03_Area_calculation</servlet-class>
+		<servlet-name>StockDetails</servlet-name>
+		<servlet-class>com.mta.chen.StockDetailsServlet</servlet-class>
 	</servlet>
-		
+	
 	<servlet-mapping>
-		<servlet-name>Ex03_Area</servlet-name>
-		<url-pattern>/ex_03 area</url-pattern>
+		<servlet-name>StockDetails</servlet-name>
+		<url-pattern>/stockDetails</url-pattern>
 	</servlet-mapping>
-		
+	
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
