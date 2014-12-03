@@ -1,4 +1,4 @@
-package com.mta.chen;
+package com.mta.chen.servlet;
 import java.io.IOException;
 
 import javax.servlet.http.*;

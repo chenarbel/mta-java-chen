@@ -1,10 +1,13 @@
-package com.mta.chen;
+package com.mta.chen.servlet;
 
 import java.io.IOException;
 import java.util.Calendar;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.mta.chen.model.Stock;
 
 @SuppressWarnings("serial")
 public class StockDetailsServlet extends HttpServlet{
