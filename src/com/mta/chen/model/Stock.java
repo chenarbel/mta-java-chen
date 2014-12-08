@@ -2,11 +2,25 @@ package com.mta.chen.model;
 
 //class
 public class Stock {
+	
 	//members
 	private String StockSymbol;
 	private float Ask;
 	private float Bid;
 	java.util.Date Date;
+	
+	//c'tor
+	public Stock(String StockSymbol, float Ask, float Bid, java.util.Date Date){
+		StockSymbol = "unKnown";
+		Ask = 0;
+		Bid = 0;
+		Date = getDate();
+	}
+	
+	//copy constructor
+	public Stock(Stock stock) {
+		this(stock.getStockSymbol(),stock.getAsk(),stock.getBid(),stock.getDate());
+		}
 	
 	//setters & getters
 	public void setStockSymbol(String stockSymbol) {

@@ -12,7 +12,18 @@ public class Portfolio {
 	//members
 	private final static int MAX_PORTFOLIO_SIZE = 5;
 	private String title;
-	private int portfolioSize = 0;
+	private int portfolioSize;//phisycal size
+	
+	//c'tor
+	public Portfolio(String title, int portfolioSize){
+		title = "unKnown";
+		portfolioSize = 0;
+	}
+	
+	//copy constructor
+	public Portfolio(Portfolio portfolio) {
+		this(portfolio.getTitle(), portfolio.getPortfolioSize());
+		}
 	
 	//stocks arrays
 	private Stock[] stocks = new Stock[MAX_PORTFOLIO_SIZE];
@@ -23,6 +34,22 @@ public class Portfolio {
 		return this.stocks;
 	}
 	
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public int getPortfolioSize() {
+		return portfolioSize;
+	}
+
+	public void setPortfolioSize(int portfolioSize) {
+		this.portfolioSize = portfolioSize;
+	}
+
 	/**
 	* @param initialized the title
 	* @return does not return a value
