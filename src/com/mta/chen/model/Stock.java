@@ -11,10 +11,10 @@ public class Stock {
 	
 	//c'tor
 	public Stock(String StockSymbol, float Ask, float Bid, java.util.Date Date){
-		StockSymbol = "unKnown";
-		Ask = 0;
-		Bid = 0;
-		Date = getDate();
+		this.StockSymbol = StockSymbol;
+		this.Ask = Ask;
+		this.Bid = Bid;
+		this.Date = Date;
 	}
 	
 	//copy constructor

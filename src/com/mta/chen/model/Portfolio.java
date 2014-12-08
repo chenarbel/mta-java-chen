@@ -16,8 +16,8 @@ public class Portfolio {
 	
 	//c'tor
 	public Portfolio(String title, int portfolioSize){
-		title = "unKnown";
-		portfolioSize = 0;
+		this.title = title;
+		this.portfolioSize = portfolioSize;
 	}
 	
 	//copy constructor

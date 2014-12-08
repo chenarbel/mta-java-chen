@@ -27,27 +27,14 @@ public class PortfolioService {
 		MyDate.set(2014, 10, 15);
 		Date CohosenDate = MyDate.getTime();
 		
-		Stock PIH = new Stock();
-		Stock AAL = new Stock();
-		Stock CAAS = new Stock();	
+		Stock PIH = new Stock("PIH",(float)12.4,(float)13.1,CohosenDate);
+		portfolio.addStock(PIH);
 		
-	PIH.setStockSymbol("PIH");
-	PIH.setAsk((float)12.4);
-	PIH.setBid((float)13.1);
-	PIH.setDate(CohosenDate);
-	portfolio.addStock(PIH);
-	
-	AAL.setStockSymbol("AAL");
-	AAL.setAsk((float)5.5);
-	AAL.setBid((float)5.78);
-	AAL.setDate(CohosenDate);
-	portfolio.addStock(AAL);
-	
-	CAAS.setStockSymbol("CAAS");
-	CAAS.setAsk((float)31.5);
-	CAAS.setBid((float)31.2);
-	CAAS.setDate(CohosenDate);
-	portfolio.addStock(CAAS);
+		Stock AAL = new Stock("AAL",(float)5.5,(float)5.78,CohosenDate);
+		portfolio.addStock(AAL);
+		
+		Stock CAAS = new Stock("CAAS",(float)31.5,(float)31.2,CohosenDate);	
+		portfolio.addStock(CAAS);
 	
 	return portfolio;
 	}
