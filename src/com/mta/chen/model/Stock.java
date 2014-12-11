@@ -1,14 +1,21 @@
 package com.mta.chen.model;
 
-//class
+/**
+ * this class:
+ * - creats members of portfolio case and initialized it
+ * -insert value to otput string  
+ * -use setters & getters
+ * @author Chen Arbel
+ * @since 3/12/14
+ */
 public class Stock {
-	
+
 	//members
 	private String StockSymbol;
 	private float Ask;
 	private float Bid;
 	java.util.Date Date;
-	
+
 	//c'tor
 	public Stock(String StockSymbol, float Ask, float Bid, java.util.Date Date){
 		this.StockSymbol = StockSymbol;
@@ -16,12 +23,12 @@ public class Stock {
 		this.Bid = Bid;
 		this.Date = Date;
 	}
-	
+
 	//copy constructor
 	public Stock(Stock stock) {
 		this(stock.getStockSymbol(),stock.getAsk(),stock.getBid(),stock.getDate());
-		}
-	
+	}
+
 	//setters & getters
 	public void setStockSymbol(String stockSymbol) {
 		StockSymbol = stockSymbol;
@@ -47,8 +54,11 @@ public class Stock {
 	public java.util.Date getDate() {
 		return Date;
 	}	
-	
-	//print function
+
+	/**
+	 * @param use catenation to insert values to string
+	 * @return thr fina string
+	 */
 	public String getHtmlDescription(){
 		String stockHtmlDetailsString = "<br><b>Stock symbol</b>: " +this.getStockSymbol()+  "<b> Ask</b>: " +this.getAsk()+ "<b> Bid</b>: "+this.getBid()+ "<b> Date</b>: " +this.getDate();
 		return stockHtmlDetailsString;
