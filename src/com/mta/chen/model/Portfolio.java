@@ -1,21 +1,12 @@
 package com.mta.chen.model;
 
-import java.io.IOException;
 import java.util.Date;
-
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.mta.chen.service.PortfolioService;
-
 /**
  * An instance of this class represents a portfolio case- stocks with relevant details
  * @author Chen Arbel
  * @since 3/12/14
  */
 public class Portfolio {
-
 	//members
 	private final static int MAX_PORTFOLIO_SIZE = 5;
 	private String title;
@@ -25,7 +16,7 @@ public class Portfolio {
 	private Stock[] stocks = new Stock[MAX_PORTFOLIO_SIZE];
 	private StockStatus[] stocksStatus = new StockStatus[MAX_PORTFOLIO_SIZE];
 
-	//c'tor
+	//c'tor (after overloading))
 	public Portfolio(String title, int portfolioSize, Stock [] stocks, StockStatus [] stockStatus){
 		this.title = title;
 		this.portfolioSize = portfolioSize;
@@ -98,16 +89,24 @@ public class Portfolio {
 		this.portfolioSize++;
 	}
 	
-	public void changeStockValue(Stock [] stocks, int i){
-		stocks[i].setBid((float) 100.01);
-	}
+	/**
+	 * @param gets stock's and delete the first stock, updates size
+	 * @return does not return a value
+	 */
+	public void removeFirstStock(Stock [] stocks){
+		for (int j = 0; j < portfolioSize; j++){
+			stocks[j] = stocks[j+1];
+		}
+		stocks[portfolioSize] = null;
+		portfolioSize--;
+		}
 	/**
 	 * @param gets stock into place in array and counts it
 	 * @return string of few strings catenation 
 	 */
 	public String getHtmlString() {
 		String getHtmlString = "";
-		getHtmlString += "<h1>" + this.title + "</h1>";
+		getHtmlString += "<br>" + this.title + "</br>";
 		for (int i = 0; i < this.portfolioSize; i++) {
 			getHtmlString += stocks[i].getHtmlDescription(); 
 		}
@@ -115,9 +114,15 @@ public class Portfolio {
 	}
 
 	/**
-	 * An instance of this class represents current status of stock and reccomendation 
+	 * An instance of this class represents current status of stock and reccomendation
+	 * this class includes:
+	 * -constants members
+	 * -members
+	 * -setter & gettes to those members
+	 * -c'tor which gets values (overloading) and initial the members
+	 * -copy c'tor which gets a type (stockStatus) and insert the values from the c'tors
 	 * @author Chen Arbel
-	 * @since 3/12/14
+	 * @since 12/12/14
 	 */
 	public class StockStatus {
 		private final static int DO_NOTHING = 0;
@@ -134,62 +139,51 @@ public class Portfolio {
 			return symbol;
 		}
 
-
 		public void setSymbol(String symbol) {
 			this.symbol = symbol;
 		}
-
 
 		public float getCurrentBid() {
 			return currentBid;
 		}
 
-
 		public void setCurrentBid(float currentBid) {
 			this.currentBid = currentBid;
 		}
-
 
 		public float getCurrentAsk() {
 			return currentAsk;
 		}
 
-
 		public void setCurrentAsk(float currentAsk) {
 			this.currentAsk = currentAsk;
 		}
-
 
 		public Date getDate() {
 			return date;
 		}
 
-
 		public void setDate(Date date) {
 			this.date = date;
 		}
-
 
 		public int getRecommendation() {
 			return recommendation;
 		}
 
-
 		public void setRecommendation(int recommendation) {
 			this.recommendation = recommendation;
 		}
-
 
 		public int getStockQuantity() {
 			return stockQuantity;
 		}
 
-
 		public void setStockQuantity(int stockQuantity) {
 			this.stockQuantity = stockQuantity;
 		}
 
-		//ctor
+		//c'tor
 		public StockStatus (String symbol, float currentBid, float currentAsk, Date date, int recommendation, int stockQuantity){
 			this.symbol = getSymbol();
 			this.currentBid = getCurrentBid();
@@ -199,7 +193,7 @@ public class Portfolio {
 			this.stockQuantity = getStockQuantity();	
 		}
 		
-		//copy ctor
+		//copy c'tor
 		public StockStatus (StockStatus stockStatus){
 			this.symbol = stockStatus.getSymbol();
 			this.currentBid = stockStatus.getCurrentBid();
@@ -208,7 +202,5 @@ public class Portfolio {
 			this.recommendation =stockStatus.getRecommendation();
 			this.stockQuantity = stockStatus.getStockQuantity();
 		}
-		
-		
 	}
 }

@@ -16,7 +16,7 @@ public class Stock {
 	private float Bid;
 	java.util.Date Date;
 
-	//c'tor
+	//c'tor (overlodaing)
 	public Stock(String StockSymbol, float Ask, float Bid, java.util.Date Date){
 		this.StockSymbol = StockSymbol;
 		this.Ask = Ask;
