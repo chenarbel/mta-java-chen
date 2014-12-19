@@ -1,5 +1,7 @@
 package com.mta.chen.model;
 
+import java.util.Date;
+
 /**
  * this class:
  * - creats members of portfolio case and initialized it
@@ -26,7 +28,7 @@ public class Stock {
 
 	//copy constructor
 	public Stock(Stock stock) {
-		this(stock.getStockSymbol(),stock.getAsk(),stock.getBid(),stock.getDate());
+		this(stock.getStockSymbol(),stock.getAsk(),stock.getBid(),new Date(stock.Date.getTime()));
 	}
 
 	//setters & getters

@@ -2,7 +2,6 @@ package com.mta.chen.service;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.io.IOException;
 import com.mta.chen.model.Portfolio;
 import com.mta.chen.model.Stock;
 
@@ -20,21 +19,27 @@ import com.mta.chen.model.Stock;
 public class PortfolioService {
 
 	public Portfolio getPortfolio() {
-		Portfolio portfolio1 = new Portfolio("my Portfolio - Portfolio #1");
+		Portfolio portfolio = new Portfolio("<h1>Exercise 7 portfolio</h1>");
 
 		Calendar MyDate = Calendar.getInstance();
-		MyDate.set(2014, 10, 15);
+		MyDate.set(2014, 11, 15);
 		Date CohosenDate = MyDate.getTime();
 
-		Stock PIH = new Stock("PIH",(float)12.4,(float)13.1,CohosenDate);
-		portfolio1.addStock(PIH);
+		Stock PIH = new Stock("PIH",(float)10,(float)8.5,CohosenDate);
+		portfolio.addStock(PIH);
+		portfolio.buyStock("PIH", 20);
+		
+		Stock AAL = new Stock("AAL",(float)30,(float)25.5,CohosenDate);
+		portfolio.addStock(AAL);
+		portfolio.buyStock("AAL", 30);
+		portfolio.sellStock("AAL", -1);
 
-		Stock AAL = new Stock("AAL",(float)5.5,(float)5.78,CohosenDate);
-		portfolio1.addStock(AAL);
-
-		Stock CAAS = new Stock("CAAS",(float)31.5,(float)31.2,CohosenDate);	
-		portfolio1.addStock(CAAS);
-
-		return portfolio1;
+		Stock CAAS = new Stock("CAAS",(float)20,(float)15.5,CohosenDate);	
+		portfolio.addStock(CAAS);
+		portfolio.buyStock("CAAS", 40);
+		portfolio.removetStock("CAAS");
+		
+		portfolio.updateBalance(10000);
+		return portfolio;
 	}
 }
