@@ -7,12 +7,9 @@ import com.mta.chen.model.Stock;
 
 /**
  * this class represents:
- * -portfolio instance
- * -date instance & initialize
- * -stocks instance
- * -insert data to stock
- * -add stock to array
- * this class return created portfolio 
+ * portfolio's instance, date's instance & initialize, stocks instance
+ * insert data to stock, add stock to array
+ * using in methods, return created portfolio 
  * @author Chen Arbel
  * @since 3/12/14
  */

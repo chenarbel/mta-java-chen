@@ -2,11 +2,12 @@ package com.mta.chen.model;
 
 import java.util.Date;
 /**
- * An instance of this class represents a portfolio case- stocks with relevant details
+ * An instance of this class represents a portfolio case- stocks with relevant details & it's current status
+ * this class includes: constant & premitive members, c'tor & copy c'tor, getters & setters, methods and inner class
  * @author Chen Arbel
  * @since 3/12/14
  */
-public class Portfolio {
+public class Portfolio{
 	//members
 	private final static int MAX_PORTFOLIO_SIZE = 5;
 	private String title;
@@ -92,7 +93,7 @@ public class Portfolio {
 
 	//לעדכן 
 	/**
-	 * @param gets stock into place in array and counts it
+	 * @param gets stock to the array according to limits
 	 * @return does not return a value
 	 */
 	public void addStock(Stock stock) {
@@ -120,17 +121,16 @@ public class Portfolio {
 	}
 	
 	/**
-	 * @param gets stock's and delete the first stock, updates size
+	 * @param delete the asked stock, updates size & arrays
+	 * @return boolean value: removed or not
 	 */
 	public boolean removetStock(String symbol){
 		boolean doesStockExists = false;
-		// int countCurrentStockSymbol = 0;
 		int currentStockSymbolIndex = 0;
 		
 		for (int k = 0; k < portfolioSize; k++){//find curent index
 			if (stocks[k].getStockSymbol() == symbol){
 				doesStockExists = true;
-				//countCurrentStockSymbol++;
 				currentStockSymbolIndex = k;
 			} 
 		}
@@ -139,11 +139,6 @@ public class Portfolio {
 			System.out.println("the stock you asked to remove does not exsists");
 			return false;
 		}
-
-		//if (countCurrentStockSymbol > 1){
-		//	System.out.println("there are more then one stock with the symbol you asked to remove");
-		//	return false;
-		//}
 
 		if (currentStockSymbolIndex == MAX_PORTFOLIO_SIZE-1){//if the stock is the last one
 			sellStock (symbol, this.stocksStatus[currentStockSymbolIndex].stockQuantity);
@@ -161,12 +156,22 @@ public class Portfolio {
 		return false;
 	}
 	
+	/**
+	 * @param buy stock, updates balance & quantity
+	 * @return boolean value: bought or not
+	 */
 	public boolean buyStock(String symbol, int quantity){
 		boolean flag = false;
 		int index = 0;
 		
+		int capablePurchaseQuantity = (int)(Math.floor((double)(balance/stocksStatus[index].currentAsk)));
+		if (capablePurchaseQuantity < quantity){
+			System.out.println("you can buy smaller quantity, not enough balance to complete purchase");
+			return false;
+		}
+		
 		if (balance < 0){
-			System.out.println("you don't have enough money to buy stocks");
+			System.out.println("you don't have enough balance to purchase stocks");
 			return false;
 		}
 		if (quantity < -1 || quantity == 0){//error
@@ -185,7 +190,7 @@ public class Portfolio {
 			System.out.println("you asked to buy stock which is not exists");
 			return false;
 		} 
-		
+		//fix the floor
 		if (quantity == -1){
 			int numOfStocks = (int)(Math.floor((double)(balance/stocksStatus[index].currentAsk)));
 			this.stocksStatus[index].stockQuantity += numOfStocks;
@@ -198,6 +203,10 @@ public class Portfolio {
 		return true;
 	}
 	
+	/**
+	 * @param sell stock, updates balance & quantity
+	 * @return boolean value: sold or not
+	 */
 	public boolean sellStock (String symbol, int quantity){
 		int index = 0;
 		if (quantity < -1 || quantity == 0){//error
@@ -211,6 +220,7 @@ public class Portfolio {
 			}
 		}
 		
+		//???
 		if (quantity > this.stocksStatus[index].stockQuantity){//help to user 
 			System.out.println("you asked to sell more stocks than you actually have, we sell them all: "+ this.stocksStatus[index].stockQuantity +" stocks");
 			quantity = this.stocksStatus[index].stockQuantity;
@@ -230,7 +240,7 @@ public class Portfolio {
 	}
 	
 	/**
-	 * @param gets stock into place in array and counts it
+	 * @param gets stock's details string
 	 * @return string of few strings catenation 
 	 */
 	public String getHtmlString() {
@@ -244,15 +254,22 @@ public class Portfolio {
 		return getHtmlString;
 	}
 	
-	//java doc
+	/**
+	 * @param gets amount and insert its value
+	 * @return does not return a value
+	 */
 	public void updateBalance(float amount){
-		this.balance = amount;
 		if (amount < 0){
-			System.out.println("notice, the value is negative!");
+			System.out.println("notice, the value is negative! insert correct value");
+			return;
 		}
+		this.balance = amount;
 	}
 	
-	//java doc
+	/**
+	 * @param gets current status array and calculates the stock's value 
+	 * @return return the value
+	 */
 	public float getStocksValue (StockStatus [] stockStatus){
 		float stocksValue = 0;
 		for (int i = 0; i < portfolioSize; i++){
@@ -261,13 +278,18 @@ public class Portfolio {
 		return stocksValue;
 	}
 	
-	//java doc
+	/**
+	 * @param gets current status array and calculates the portfolio's total value 
+	 * @return return the total value
+	 */
 	public float getTotalValue (StockStatus [] stockStatus){
 		float totalValue = getStocksValue(stockStatus) + getBalance();
 		return totalValue;
 	}
 
-	//java doc
+	/**
+	 * create enums 
+	 */
 	public enum ALGO_RECOMMENDATION {
 		DO_NOTHING(0), BUY(1) ,SELL(2);
 		private int recommend;
@@ -279,11 +301,9 @@ public class Portfolio {
 	/**
 	 * An instance of this class represents current status of stock and reccomendation
 	 * this class includes:
-	 * -constants members
-	 * -members
+	 * -constants members, premitive members
 	 * -setter & gettes to those members
-	 * -c'tor which gets values (overloading) and initial the members
-	 * -copy c'tor which gets a type (stockStatus) and insert the values from the c'tors
+	 * -c'tor which gets values (overloading), copy c'tor
 	 * @author Chen Arbel
 	 * @since 12/12/14
 	 */
