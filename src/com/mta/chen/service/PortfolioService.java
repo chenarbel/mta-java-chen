@@ -21,22 +21,24 @@ public class PortfolioService {
 		Calendar MyDate = Calendar.getInstance();
 		MyDate.set(2014, 11, 15);
 		Date CohosenDate = MyDate.getTime();
-
-		Stock PIH = new Stock("PIH",(float)10,(float)8.5,CohosenDate);
+		
+		portfolio.setBalance(10000);
+		
+		Stock PIH = new Stock("PIH",(float)10,(float)8.5,CohosenDate);	
 		portfolio.addStock(PIH);
 		portfolio.buyStock("PIH", 20);
 		
 		Stock AAL = new Stock("AAL",(float)30,(float)25.5,CohosenDate);
 		portfolio.addStock(AAL);
 		portfolio.buyStock("AAL", 30);
-		portfolio.sellStock("AAL", -1);
-
+		
 		Stock CAAS = new Stock("CAAS",(float)20,(float)15.5,CohosenDate);	
 		portfolio.addStock(CAAS);
 		portfolio.buyStock("CAAS", 40);
-		portfolio.removetStock("CAAS");
 		
-		portfolio.updateBalance(10000);
+		portfolio.sellStock("AAL", -1);
+		portfolio.removetStock("CAAS");
+			
 		return portfolio;
 	}
 }

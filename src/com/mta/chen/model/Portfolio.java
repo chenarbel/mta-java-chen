@@ -91,7 +91,6 @@ public class Portfolio{
 		this.title = title;
 	}
 
-	//ìòãëï 
 	/**
 	 * @param gets stock to the array according to limits
 	 * @return does not return a value
@@ -106,7 +105,7 @@ public class Portfolio{
 		}
 		
 		if (portfolioSize >= MAX_PORTFOLIO_SIZE){
-			System.out.println("Can’t add new stock, portfolio can have only"+ MAX_PORTFOLIO_SIZE +"stocks");
+			System.out.println("Can’t add new stock, portfolio can have only "+ MAX_PORTFOLIO_SIZE +" stocks");
 			return;
 		}
 		else if (doesStockExists == true){
@@ -146,7 +145,7 @@ public class Portfolio{
 			return true;
 		}
 
-		if (doesStockExists == true){//shrink the array: the empty pkace gets the last's place valus
+		if (doesStockExists == true){//shrink the array: the empty place gets the last's place valus
 			sellStock (symbol, this.stocksStatus[currentStockSymbolIndex].stockQuantity);
 			this.stocks[currentStockSymbolIndex] = stocks[portfolioSize-1];
 			this.stocksStatus[currentStockSymbolIndex] = stocksStatus[portfolioSize-1];
@@ -164,18 +163,19 @@ public class Portfolio{
 		boolean flag = false;
 		int index = 0;
 		
+		if (balance == 0){
+			System.out.println("your balance is zero, can't buy stocks");
+			return false;
+		}
+		
 		int capablePurchaseQuantity = (int)(Math.floor((double)(balance/stocksStatus[index].currentAsk)));
 		if (capablePurchaseQuantity < quantity){
 			System.out.println("you can buy smaller quantity, not enough balance to complete purchase");
 			return false;
 		}
 		
-		if (balance < 0){
-			System.out.println("you don't have enough balance to purchase stocks");
-			return false;
-		}
 		if (quantity < -1 || quantity == 0){//error
-			System.out.println("you asked to buy incorrect numbers of stocks (zero or nagative number))");
+			System.out.println("you asked to buy incorrect number of stocks (zero or nagative number))");
 			return false;
 		}
 		
@@ -190,15 +190,15 @@ public class Portfolio{
 			System.out.println("you asked to buy stock which is not exists");
 			return false;
 		} 
-		//fix the floor
+		
 		if (quantity == -1){
 			int numOfStocks = (int)(Math.floor((double)(balance/stocksStatus[index].currentAsk)));
 			this.stocksStatus[index].stockQuantity += numOfStocks;
-			balance -= quantity * numOfStocks;
+			updateBalance(-numOfStocks * stocksStatus[index].currentAsk);
 			return true;
 		}
 		
-		balance -= quantity * this.stocksStatus[index].currentAsk;
+		updateBalance(-quantity * this.stocksStatus[index].currentAsk);
 		this.stocksStatus[index].stockQuantity += quantity;
 		return true;
 	}
@@ -210,7 +210,7 @@ public class Portfolio{
 	public boolean sellStock (String symbol, int quantity){
 		int index = 0;
 		if (quantity < -1 || quantity == 0){//error
-			System.out.println("you asked to sell incorrect numbers of stocks (zero or nagative number))");
+			System.out.println("you asked to sell incorrect number of stocks (zero or nagative number))");
 			return false;
 		}
 		
@@ -220,7 +220,6 @@ public class Portfolio{
 			}
 		}
 		
-		//???
 		if (quantity > this.stocksStatus[index].stockQuantity){//help to user 
 			System.out.println("you asked to sell more stocks than you actually have, we sell them all: "+ this.stocksStatus[index].stockQuantity +" stocks");
 			quantity = this.stocksStatus[index].stockQuantity;
@@ -230,11 +229,11 @@ public class Portfolio{
 			quantity = this.stocksStatus[index].stockQuantity;
 		}
 		
-		balance += quantity * this.stocksStatus[index].currentBid;
+		updateBalance (quantity * this.stocksStatus[index].currentBid);
 		this.stocksStatus[index].stockQuantity -= quantity;
 
 		if (this.stocksStatus[index].stockQuantity == 0){
-			System.out.println("attention! your stock is empty (stock quantity is zero)");
+			System.out.println("attention! your current stock is empty (stock quantity is zero)");
 		}
 		return true;
 	}
@@ -245,7 +244,7 @@ public class Portfolio{
 	 */
 	public String getHtmlString() {
 		String getHtmlString = "";
-		getHtmlString += "<br>" + this.title + "</br>";
+		getHtmlString += this.title;
 		for (int i = 0; i < this.portfolioSize; i++) {
 			getHtmlString += stocks[i].getHtmlDescription(); 
 		}
@@ -259,11 +258,7 @@ public class Portfolio{
 	 * @return does not return a value
 	 */
 	public void updateBalance(float amount){
-		if (amount < 0){
-			System.out.println("notice, the value is negative! insert correct value");
-			return;
-		}
-		this.balance = amount;
+		this.balance += amount;
 	}
 	
 	/**
@@ -288,7 +283,7 @@ public class Portfolio{
 	}
 
 	/**
-	 * create enums 
+	 * create enums as a constants
 	 */
 	public enum ALGO_RECOMMENDATION {
 		DO_NOTHING(0), BUY(1) ,SELL(2);
