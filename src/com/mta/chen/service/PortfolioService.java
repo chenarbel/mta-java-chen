@@ -16,7 +16,7 @@ import com.mta.chen.model.Stock;
 public class PortfolioService {
 
 	public Portfolio getPortfolio() {
-		Portfolio portfolio = new Portfolio("<h1>Exercise 7 portfolio</h1>");
+		Portfolio portfolio = new Portfolio("<h1>Exercise 8 portfolio</h1>");
 
 		Calendar MyDate = Calendar.getInstance();
 		MyDate.set(2014, 11, 15);
