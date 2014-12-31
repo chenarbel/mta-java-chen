@@ -16,17 +16,15 @@ public class Portfolio{
 	private float balance;
 
 	//stocks arrays
-	private Stock[] stocks = new Stock[MAX_PORTFOLIO_SIZE];
 	private StockStatus[] stocksStatus = new StockStatus[MAX_PORTFOLIO_SIZE];
 
 	//c'tor (after overloading)
-	public Portfolio(String title, int portfolioSize, float balance, Stock [] stocks, StockStatus [] stockStatus){
+	public Portfolio(String title, int portfolioSize, float balance, StockStatus [] stockStatus){
 		this.title = title;
 		this.portfolioSize = portfolioSize;
 		this.balance = balance;
 		for (int i = 0; i < portfolioSize; i++)
 		{
-			this.stocks[i] = stocks[i];
 			this.stocksStatus[i] = stockStatus[i];
 		}
 	}
@@ -36,22 +34,13 @@ public class Portfolio{
 		this.title = portfolio.getTitle();
 		this.portfolioSize = portfolio.getPortfolioSize();
 		this.balance = portfolio.getBalance();
-		stocks = new Stock[MAX_PORTFOLIO_SIZE];
 		for(int i = 0; i < portfolioSize; i++)
 		{
-			this.stocks[i] = new Stock(portfolio.stocks[i]);
+			this.stocksStatus[i] = new StockStatus(getStocksStatus()[i]);
 		}
 	}
 
 	//getters & setters
-	public Stock[] getStocks(){
-		return this.stocks;
-	}
-
-	public void setStocks(Stock[] stocks) {
-		this.stocks = stocks;
-	}
-
 	public StockStatus[] getStocksStatus() {
 		return this.stocksStatus;
 	}
@@ -100,7 +89,7 @@ public class Portfolio{
 		boolean doesStockExists = false;
 		
 		for (int k = 0; k < portfolioSize; k++){
-			if (stocks[k].getStockSymbol() == stock.getStockSymbol()){
+			if (stocksStatus[k].getStockSymbol() == stock.getStockSymbol()){
 				doesStockExists = true;
 			} 
 		}
@@ -114,8 +103,7 @@ public class Portfolio{
 			return;
 		}
 		else{
-			this.stocks[portfolioSize] = stock;
-			stocksStatus[portfolioSize] = new StockStatus(stock.getStockSymbol(), stock.getBid(), stock.getAsk(), stock.getDate(), ALGO_RECOMMENDATION.DO_NOTHING, 0);
+			stocksStatus[portfolioSize] = new StockStatus(stock.getStockSymbol(), stock.getAsk(),stock.getBid(), stock.getDate(), ALGO_RECOMMENDATION.DO_NOTHING, 0);
 			this.portfolioSize++;
 		}
 	}
@@ -129,7 +117,7 @@ public class Portfolio{
 		int currentStockSymbolIndex = 0;
 		
 		for (int k = 0; k < portfolioSize; k++){//find curent index
-			if (stocks[k].getStockSymbol() == symbol){
+			if (stocksStatus[k].getStockSymbol() == symbol){
 				doesStockExists = true;
 				currentStockSymbolIndex = k;
 			} 
@@ -148,7 +136,7 @@ public class Portfolio{
 
 		if (doesStockExists == true){//shrink the array: the empty place gets the last's place valus
 			sellStock (symbol, this.stocksStatus[currentStockSymbolIndex].getStockQuantity());
-			this.stocks[currentStockSymbolIndex] = stocks[portfolioSize-1];
+			this.stocksStatus[currentStockSymbolIndex] = stocksStatus[portfolioSize-1];
 			this.stocksStatus[currentStockSymbolIndex] = stocksStatus[portfolioSize-1];
 			this.portfolioSize--;
 			return true;
@@ -181,7 +169,7 @@ public class Portfolio{
 		}
 		
 		for (int i = 0; i < portfolioSize; i++){//check if stocks exists
-			if (stocks[i].getStockSymbol() == symbol){
+			if (stocksStatus[i].getStockSymbol() == symbol){
 				flag = true;
 				index = i;
 			}
@@ -216,7 +204,7 @@ public class Portfolio{
 		}
 		
 		for (int i = 0; i < portfolioSize; i++){//find index of requested stock symbol
-			if (stocks[i].getStockSymbol() == symbol){
+			if (stocksStatus[i].getStockSymbol() == symbol){
 				index = i;
 			}
 		}
@@ -247,7 +235,7 @@ public class Portfolio{
 		String getHtmlString = "";
 		getHtmlString += this.title;
 		for (int i = 0; i < this.portfolioSize; i++) {
-			getHtmlString += stocks[i].getHtmlDescription(); 
+			getHtmlString += stocksStatus[i].getHtmlDescription(); 
 		}
 		
 		getHtmlString += "<br><b> Total portfolio value: </b>" +getTotalValue(getStocksStatus())+ "$,<b> Total Stocks value: </b>" +getStocksValue(getStocksStatus())+" $,<b> Balance: </b>"+getBalance()+" $</br>";

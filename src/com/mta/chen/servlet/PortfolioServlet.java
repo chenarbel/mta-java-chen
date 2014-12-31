@@ -22,7 +22,7 @@ public class PortfolioServlet extends HttpServlet{
 		resp.setContentType("text/html");
 		PortfolioService portfolioService = new PortfolioService();
 		Portfolio portfolio = portfolioService.getPortfolio();
-		Stock[] stocks = portfolio.getStocks();
+		Stock[] stocks = portfolio.getStocksStatus();
 		StockStatus[] stocksStatus = portfolio.getStocksStatus();
 		
 		resp.getWriter().println(portfolio.getHtmlString());
