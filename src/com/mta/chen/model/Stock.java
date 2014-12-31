@@ -1,7 +1,6 @@
 package com.mta.chen.model;
 
 import java.util.Date;
-
 /**
  * this class:
  * - creats members of portfolio case and initialized it
