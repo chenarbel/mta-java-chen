@@ -1,13 +1,12 @@
 package com.mta.chen.servlet;
 
 import java.io.IOException;
+import com.mta.chen.model.StockStatus;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.mta.chen.model.Portfolio;
-import com.mta.chen.model.Portfolio.StockStatus;
 import com.mta.chen.model.Stock;
 import com.mta.chen.service.PortfolioService;
 

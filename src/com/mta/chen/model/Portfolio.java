@@ -1,6 +1,7 @@
 package com.mta.chen.model;
 
-import java.util.Date;
+import com.mta.chen.model.StockStatus;
+
 /**
  * An instance of this class represents a portfolio case- stocks with relevant details & it's current status
  * this class includes: constant & premitive members, c'tor & copy c'tor, getters & setters, methods and inner class
@@ -114,7 +115,7 @@ public class Portfolio{
 		}
 		else{
 			this.stocks[portfolioSize] = stock;
-			stocksStatus[portfolioSize] = new Portfolio.StockStatus(stock.getStockSymbol(), stock.getBid(), stock.getAsk(), stock.getDate(), ALGO_RECOMMENDATION.DO_NOTHING, 0);
+			stocksStatus[portfolioSize] = new StockStatus(stock.getStockSymbol(), stock.getBid(), stock.getAsk(), stock.getDate(), ALGO_RECOMMENDATION.DO_NOTHING, 0);
 			this.portfolioSize++;
 		}
 	}
@@ -140,13 +141,13 @@ public class Portfolio{
 		}
 
 		if (currentStockSymbolIndex == MAX_PORTFOLIO_SIZE-1){//if the stock is the last one
-			sellStock (symbol, this.stocksStatus[currentStockSymbolIndex].stockQuantity);
+			sellStock (symbol, this.stocksStatus[currentStockSymbolIndex].getStockQuantity());
 			this.portfolioSize--;
 			return true;
 		}
 
 		if (doesStockExists == true){//shrink the array: the empty place gets the last's place valus
-			sellStock (symbol, this.stocksStatus[currentStockSymbolIndex].stockQuantity);
+			sellStock (symbol, this.stocksStatus[currentStockSymbolIndex].getStockQuantity());
 			this.stocks[currentStockSymbolIndex] = stocks[portfolioSize-1];
 			this.stocksStatus[currentStockSymbolIndex] = stocksStatus[portfolioSize-1];
 			this.portfolioSize--;
@@ -168,7 +169,7 @@ public class Portfolio{
 			return false;
 		}
 		
-		int capablePurchaseQuantity = (int)(Math.floor((double)(balance/stocksStatus[index].currentAsk)));
+		int capablePurchaseQuantity = (int)(Math.floor((double)(balance/stocksStatus[index].Ask)));
 		if (capablePurchaseQuantity < quantity){
 			System.out.println("you can buy smaller quantity, not enough balance to complete purchase");
 			return false;
@@ -192,13 +193,13 @@ public class Portfolio{
 		} 
 		
 		if (quantity == -1){
-			int numOfStocks = (int)(Math.floor((double)(balance/stocksStatus[index].currentAsk)));
+			int numOfStocks = (int)(Math.floor((double)(balance/stocksStatus[index].Ask)));
 			this.stocksStatus[index].stockQuantity += numOfStocks;
-			updateBalance(-numOfStocks * stocksStatus[index].currentAsk);
+			updateBalance(-numOfStocks * stocksStatus[index].Ask);
 			return true;
 		}
 		
-		updateBalance(-quantity * this.stocksStatus[index].currentAsk);
+		updateBalance(-quantity * this.stocksStatus[index].Ask);
 		this.stocksStatus[index].stockQuantity += quantity;
 		return true;
 	}
@@ -229,7 +230,7 @@ public class Portfolio{
 			quantity = this.stocksStatus[index].stockQuantity;
 		}
 		
-		updateBalance (quantity * this.stocksStatus[index].currentBid);
+		updateBalance (quantity * this.stocksStatus[index].Bid);
 		this.stocksStatus[index].stockQuantity -= quantity;
 
 		if (this.stocksStatus[index].stockQuantity == 0){
@@ -268,7 +269,7 @@ public class Portfolio{
 	public float getStocksValue (StockStatus [] stockStatus){
 		float stocksValue = 0;
 		for (int i = 0; i < portfolioSize; i++){
-			stocksValue += stockStatus[i].stockQuantity * stockStatus[i].currentBid;
+			stocksValue += stockStatus[i].stockQuantity * stockStatus[i].Bid;
 		}
 		return stocksValue;
 	}
@@ -291,91 +292,5 @@ public class Portfolio{
 		private ALGO_RECOMMENDATION(int recommend) {
 			this.recommend = recommend;
 		} 
-	}
-
-	/**
-	 * An instance of this class represents current status of stock and reccomendation
-	 * this class includes:
-	 * -constants members, premitive members
-	 * -setter & gettes to those members
-	 * -c'tor which gets values (overloading), copy c'tor
-	 * @author Chen Arbel
-	 * @since 12/12/14
-	 */
-	public class StockStatus {
-
-		private String symbol;
-		private float currentBid, currentAsk;
-		private Date date;
-		private ALGO_RECOMMENDATION recommendation;
-		private int stockQuantity;
-
-		public String getSymbol() {
-			return symbol;
-		}
-
-		public void setSymbol(String symbol) {
-			this.symbol = symbol;
-		}
-
-		public float getCurrentBid() {
-			return currentBid;
-		}
-
-		public void setCurrentBid(float currentBid) {
-			this.currentBid = currentBid;
-		}
-
-		public float getCurrentAsk() {
-			return currentAsk;
-		}
-
-		public void setCurrentAsk(float currentAsk) {
-			this.currentAsk = currentAsk;
-		}
-
-		public Date getDate() {
-			return date;
-		}
-
-		public void setDate(Date date) {
-			this.date = date;
-		}
-
-		public ALGO_RECOMMENDATION getRecommendation() {
-			return recommendation;
-		}
-
-		public void setRecommendation(ALGO_RECOMMENDATION recommendation) {
-			this.recommendation = recommendation;
-		}
-
-		public int getStockQuantity() {
-			return stockQuantity;
-		}
-
-		public void setStockQuantity(int stockQuantity) {
-			this.stockQuantity = stockQuantity;
-		}
-
-		//c'tor
-		public StockStatus (String symbol, float currentBid, float currentAsk, Date date, ALGO_RECOMMENDATION recommendation, int stockQuantity){
-			this.symbol = symbol;
-			this.currentBid = currentBid;//להמשיך 
-			this.currentAsk = currentAsk;
-			this.date = date;
-			this.recommendation = recommendation;
-			this.stockQuantity = stockQuantity;	
-		}
-
-		//copy c'tor
-		public StockStatus (StockStatus stockStatus){
-			this.symbol = stockStatus.getSymbol();
-			this.currentBid = stockStatus.getCurrentBid();
-			this.currentAsk = stockStatus.getCurrentAsk();
-			this.date = new Date (stockStatus.date.getTime());
-			this.recommendation =stockStatus.getRecommendation();
-			this.stockQuantity = stockStatus.getStockQuantity();
-		}
 	}
 }

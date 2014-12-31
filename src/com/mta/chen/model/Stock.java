@@ -13,10 +13,10 @@ import java.util.Date;
 public class Stock {
 
 	//members
-	private String StockSymbol;
-	private float Ask;
-	private float Bid;
-	java.util.Date Date;
+	protected String StockSymbol;
+	protected float Ask;
+	protected float Bid;
+	protected java.util.Date Date;
 
 	//c'tor (overlodaing)
 	public Stock(String StockSymbol, float Ask, float Bid, java.util.Date Date){
