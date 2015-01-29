@@ -1,5 +1,13 @@
 package com.mta.chen.model;
 
+import java.lang.Object;
+import java.util.AbstractCollection;
+import java.util.AbstractList;
+import java.util.AbstractSequentialList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ArrayList;
+
 import com.mta.chen.exception.BalanceException;
 import com.mta.chen.exception.PortfolioFullException;
 import com.mta.chen.exception.StockAlreadyExistsException;
@@ -11,18 +19,19 @@ import com.mta.chen.model.StockStatus;
  * An instance of this class represents a portfolio case- stocks with relevant details & it's current status
  * this class includes: constant & premitive members, c'tor & copy c'tor, getters & setters, methods and throw exceptions
  * @author Chen Arbel
+ * @param <node>
  * @since 3/12/14
  * @update 12/01/15
  */
-public class Portfolio{
+public class Portfolio<node>{
 	//members
-	private final static int MAX_PORTFOLIO_SIZE = 5;
+	public final static int SIZE = 5;
 	private String title;
 	private int portfolioSize;//phisycal size
 	private float balance;
 
 	//stocks arrays
-	private StockStatus[] stocksStatus = new StockStatus[MAX_PORTFOLIO_SIZE];
+	private StockStatus[] stocksStatus = new StockStatus[SIZE];
 
 	//c'tor (after overloading)
 	public Portfolio(String title, int portfolioSize, float balance, StockStatus [] stockStatus){
@@ -42,11 +51,22 @@ public class Portfolio{
 		this.balance = portfolio.getBalance();
 		for(int i = 0; i < portfolioSize; i++)
 		{
-			this.stocksStatus[i] = new StockStatus(getStocksStatus()[i]);
+			this.stocksStatus[i] = new StockStatus(getStocksStatus()[i]);//instance of this class
 		}
 	}
 
+	//list c'tor
+	public Portfolio (List<StockStatus> stockStatusList) {
+		for (int i =0; i < stockStatusList.size(); i++ ){
+			this.stocksStatus[i] = stockStatusList.get(i);
+		}
+	}
+	
 	//getters & setters
+	public StockStatus[] getStocks() {
+		return this.stocksStatus;
+	}
+	
 	public StockStatus[] getStocksStatus() {
 		return this.stocksStatus;
 	}
@@ -97,12 +117,12 @@ public class Portfolio{
 		boolean doesStockExists = false;
 
 		for (int k = 0; k < portfolioSize; k++){
-			if (stocksStatus[k].getStockSymbol() == stock.getStockSymbol()){
+			if (stocksStatus[k].getStockSymbol().equals(stock.getStockSymbol())){
 				doesStockExists = true;
 			} 
 		}
 
-		if (portfolioSize >= MAX_PORTFOLIO_SIZE){
+		if (portfolioSize >= SIZE){
 			throw new PortfolioFullException();
 		}
 		else if (doesStockExists == true){
@@ -125,7 +145,7 @@ public class Portfolio{
 		int currentStockSymbolIndex = 0;
 
 		for (int k = 0; k < portfolioSize; k++){//find curent index
-			if (stocksStatus[k].getStockSymbol() == symbol){
+			if (stocksStatus[k].getStockSymbol().equals(symbol)){
 				doesStockExists = true;
 				currentStockSymbolIndex = k;
 			} 
@@ -135,7 +155,7 @@ public class Portfolio{
 			throw new StockNotExistException();
 		}
 
-		if (currentStockSymbolIndex == MAX_PORTFOLIO_SIZE-1){//if the stock is the last one
+		if (currentStockSymbolIndex == SIZE-1){//if the stock is the last one
 			sellStock (symbol, this.stocksStatus[currentStockSymbolIndex].getStockQuantity());
 			this.portfolioSize--;
 		}
@@ -173,7 +193,7 @@ public class Portfolio{
 		}
 
 		for (int i = 0; i < portfolioSize; i++){//check if stocks exists
-			if (stocksStatus[i].getStockSymbol() == symbol){
+			if (stocksStatus[i].getStockSymbol().equals(symbol)){
 				flag = true;
 				index = i;
 			}
@@ -208,7 +228,7 @@ public class Portfolio{
 		}
 
 		for (int i = 0; i < portfolioSize; i++){//find index of requested stock symbol
-			if (stocksStatus[i].getStockSymbol() == symbol){
+			if (stocksStatus[i].getStockSymbol().equals(symbol)){
 				index = i;
 				flag = true;
 			}
