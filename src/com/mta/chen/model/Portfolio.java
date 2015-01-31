@@ -61,12 +61,12 @@ public class Portfolio<node>{
 			this.stocksStatus[i] = stockStatusList.get(i);
 		}
 	}
-	
+
 	//getters & setters
 	public StockStatus[] getStocks() {
 		return this.stocksStatus;
 	}
-	
+
 	public StockStatus[] getStocksStatus() {
 		return this.stocksStatus;
 	}
@@ -107,6 +107,10 @@ public class Portfolio<node>{
 		this.title = title;
 	}
 
+	public Portfolio() {
+		
+	}
+	
 	/**
 	 * @param gets stock to the array according to limits
 	 * @return does not return a value
@@ -222,7 +226,7 @@ public class Portfolio<node>{
 	public void sellStock (String symbol, int quantity) throws StockIncorrectNumberException, StockNotExistException{
 		int index = 0;
 		boolean flag = false;
-		
+
 		if (quantity < -1 || quantity == 0){//error
 			throw new StockIncorrectNumberException();
 		}
@@ -307,5 +311,20 @@ public class Portfolio<node>{
 		private ALGO_RECOMMENDATION(int recommend) {
 			this.recommend = recommend;
 		} 
+	}
+
+	/**
+	find the symbol that is in the paramter and returns it
+	 **/
+	public StockStatus findBySymbol(String symbol) {
+		for(int i = 0; i < portfolioSize; i++)
+		{
+			if(this.stocksStatus[i] != null)
+			{
+				if(this.stocksStatus[i].getStockSymbol().toLowerCase().equalsIgnoreCase(symbol))	
+					return this.stocksStatus[i];
+			}	
+		}
+		return null;
 	}
 }

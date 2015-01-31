@@ -42,7 +42,18 @@ public class StockStatus extends Stock{
 		//copy c'tor
 		public StockStatus (StockStatus stockStatus){
 			super(stockStatus);
-			this.recommendation =stockStatus.getRecommendation();
+			this.recommendation = stockStatus.getRecommendation();
 			this.stockQuantity = stockStatus.getStockQuantity();
+		}
+
+		public StockStatus(Stock stock) {
+			super(stock);
+			this.recommendation = ALGO_RECOMMENDATION.DO_NOTHING;
+			this.stockQuantity = 0;
+		}
+
+		public StockStatus() {
+			this.recommendation = ALGO_RECOMMENDATION.DO_NOTHING;
+			this.stockQuantity = 0;
 		}
 }
