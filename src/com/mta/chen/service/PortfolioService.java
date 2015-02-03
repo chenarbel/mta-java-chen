@@ -48,7 +48,7 @@ public class PortfolioService {
 		datastoreService = DatastoreService.getInstance();
 	}
 
-	public Portfolio getPortfolio() throws BalanceException {
+	public Portfolio getPortfolio() {
 		if(portfolio == null) {
 			portfolio = datastoreService.loadPortfolilo();
 		}
@@ -58,9 +58,8 @@ public class PortfolioService {
 	
 	/**
 	 * Updates Portfolio with algo recommendation.
-	 * @throws BalanceException 
 	 */
-	public void update() throws BalanceException {
+	public void update() {
 		StockStatus[] stocks = getPortfolio().getStocks();
 		List<String> symbols = new ArrayList<>(Portfolio.SIZE);
 		for (StockStatus stockStatus : stocks) {
@@ -84,9 +83,8 @@ public class PortfolioService {
 		}
 	}
 	
-	public PortfolioTotalStatus[] getPortfolioTotalStatus () throws BalanceException {
+	public PortfolioTotalStatus[] getPortfolioTotalStatus () {
 		
-		@SuppressWarnings("rawtypes")
 		Portfolio portfolio = getPortfolio();
 		Map<Date, Float> map = new HashMap<>();
 		
@@ -130,7 +128,7 @@ public class PortfolioService {
 		return ret;
 	}
 	
-	public void setTitle(String title) throws BalanceException {
+	public void setTitle(String title) {
 		Portfolio portfolio = getPortfolio();
 		portfolio.setTitle(title);
 		datastoreService.updatePortfolio(portfolio);
@@ -146,7 +144,7 @@ public class PortfolioService {
 		flush();
 	}
 	
-	public void addStock(String symbol) throws StockAlreadyExistsException, PortfolioFullException, StockNotExistsException, SymbolNotFoundInNasdaq, BalanceException {
+	public void addStock(String symbol) throws StockAlreadyExistsException, PortfolioFullException, StockNotExistsException, SymbolNotFoundInNasdaq {
 		Portfolio portfolio = getPortfolio();
 		
 		//get current symbol values from nasdaq.
@@ -165,22 +163,22 @@ public class PortfolioService {
 		}
 	}
 	
-	public void buyStock(String symbol, int quantity) throws BalanceException, StockNotExistsException, StockNotExistException, StockIncorrectNumberException {
+	public void buyStock(String symbol, int quantity) throws BalanceException, StockNotExistsException, IllegalQuantityException, StockNotExistException, StockIncorrectNumberException {
 		getPortfolio().buyStock(symbol, quantity);
 		flush();
 	}
 
-	public void sellStock(String symbol, int quantity) throws StockNotExistsException, IllegalQuantityException, StockIncorrectNumberException, StockNotExistException, BalanceException {
+	public void sellStock(String symbol, int quantity) throws StockNotExistsException, IllegalQuantityException, BalanceException, StockIncorrectNumberException, StockNotExistException {
 		getPortfolio().sellStock(symbol, quantity);
 		flush();
 	}
 
-	public void removeStock(String symbol) throws StockNotExistsException, IllegalQuantityException, StockNotExistException, StockIncorrectNumberException, BalanceException {
+	public void removeStock(String symbol) throws StockNotExistsException, IllegalQuantityException, BalanceException, StockNotExistException, StockIncorrectNumberException {
 		getPortfolio().removetStock(symbol);
 		flush();
 	}
 	
-	private void flush() throws BalanceException {
+	private void flush() {
 		//update db
 		datastoreService.updatePortfolio(getPortfolio());
 		//now make next call to portfolio to fetch data from updated db.

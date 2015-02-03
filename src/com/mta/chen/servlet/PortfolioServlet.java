@@ -22,20 +22,8 @@ public class PortfolioServlet extends AbstractAlgoServlet {
 		
 		resp.setContentType("application/json");
 		
-		PortfolioTotalStatus[] totalStatus = null;
-		try {
-			totalStatus = portfolioService.getPortfolioTotalStatus();
-		} catch (BalanceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		StockStatus[] stockStatusArray = null;
-		try {
-			stockStatusArray = portfolioService.getPortfolio().getStocks();
-		} catch (BalanceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		PortfolioTotalStatus[] totalStatus = portfolioService.getPortfolioTotalStatus();
+		StockStatus[] stockStatusArray = portfolioService.getPortfolio().getStocks();
 		List<StockStatus> stockStatusList = new ArrayList<>();
 		for (StockStatus ss : stockStatusArray) {
 			if(ss != null)
@@ -43,14 +31,10 @@ public class PortfolioServlet extends AbstractAlgoServlet {
 		}
 		
 		PortfolioDto pDto = new PortfolioDto();
-		try {
-			pDto.setTitle(portfolioService.getPortfolio().getTitle());
-		} catch (BalanceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		pDto.setTitle(portfolioService.getPortfolio().getTitle());
 		pDto.setTotalStatus(totalStatus);
 		pDto.setStockTable(stockStatusList);
-		resp.getWriter().print(withNullObjects().toJson(pDto));
+		String bla = withNullObjects().toJson(pDto);
+		resp.getWriter().print(bla);
 	}
 }

@@ -18,10 +18,10 @@ public class Stock {
 	protected java.util.Date Date;
 
 	public Stock(){
-		this.StockSymbol = null;
-		this.Ask = 0;
-		this.Bid = 0;
-		this.Date = null;
+		StockSymbol = null;
+		Ask = 0;
+		Bid = 0;
+		Date = null;
 	}
 
 	//c'tor (overlodaing)

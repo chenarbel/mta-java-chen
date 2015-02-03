@@ -42,6 +42,7 @@ public class StockStatus extends Stock{
 		//copy c'tor
 		public StockStatus (StockStatus stockStatus){
 			super(stockStatus);
+			//super(stockStatus.getStockSymbol(), stockStatus.Ask, stockStatus.Bid,(new Date(stockStatus.getTime())));
 			this.recommendation = stockStatus.getRecommendation();
 			this.stockQuantity = stockStatus.getStockQuantity();
 		}
