@@ -1,13 +1,6 @@
 package com.mta.chen.model;
 
-import java.lang.Object;
-import java.util.AbstractCollection;
-import java.util.AbstractList;
-import java.util.AbstractSequentialList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.ArrayList;
-
 import com.mta.chen.exception.BalanceException;
 import com.mta.chen.exception.PortfolioFullException;
 import com.mta.chen.exception.StockAlreadyExistsException;
@@ -21,8 +14,9 @@ import com.mta.chen.model.StockStatus;
  * @author Chen Arbel
  * @param <node>
  * @since 3/12/14
- * @update 12/01/15
+ * @update 12/01/15, 4/2/15
  */
+
 public class Portfolio<node>{
 	//members
 	public final static int SIZE = 5;
@@ -57,9 +51,19 @@ public class Portfolio<node>{
 
 	//list c'tor
 	public Portfolio (List<StockStatus> stockStatusList) {
+		this();
+		  int arraySize = stockStatusList.size();
+		  setPortfolioSize(arraySize);
+
+		  if(stockStatusList.size() > SIZE)
+		   arraySize = SIZE;
+		
 		for (int i =0; i < stockStatusList.size(); i++ ){
 			this.stocksStatus[i] = stockStatusList.get(i);
 		}
+	}
+	
+	public Portfolio() {
 	}
 
 	//getters & setters
@@ -106,10 +110,6 @@ public class Portfolio<node>{
 	public Portfolio (String title){
 		this.title = title;
 	}
-
-	public Portfolio() {
-		
-	}
 	
 	/**
 	 * @param gets stock to the array according to limits
@@ -121,7 +121,7 @@ public class Portfolio<node>{
 		boolean doesStockExists = false;
 
 		for (int k = 0; k < portfolioSize; k++){
-			if (stocksStatus[k].getStockSymbol().equals(stock.getStockSymbol())){
+			if (stocksStatus[k].getSymbol().equals(stock.getSymbol())){
 				doesStockExists = true;
 			} 
 		}
@@ -130,10 +130,10 @@ public class Portfolio<node>{
 			throw new PortfolioFullException();
 		}
 		else if (doesStockExists == true){
-			throw new StockAlreadyExistsException(stock.getStockSymbol());
+			throw new StockAlreadyExistsException(stock.getSymbol());
 		}
 		else{
-			stocksStatus[portfolioSize] = new StockStatus(stock.getStockSymbol(), stock.getAsk(),stock.getBid(), stock.getDate(), ALGO_RECOMMENDATION.DO_NOTHING, 0);
+			stocksStatus[portfolioSize] = new StockStatus(stock.getSymbol(), stock.getAsk(),stock.getBid(), stock.getDate(), ALGO_RECOMMENDATION.DO_NOTHING, 0);
 			this.portfolioSize++;
 		}
 	}
@@ -149,7 +149,7 @@ public class Portfolio<node>{
 		int currentStockSymbolIndex = 0;
 
 		for (int k = 0; k < portfolioSize; k++){//find curent index
-			if (stocksStatus[k].getStockSymbol().equals(symbol)){
+			if (stocksStatus[k].getSymbol().equals(symbol)){
 				doesStockExists = true;
 				currentStockSymbolIndex = k;
 			} 
@@ -187,7 +187,7 @@ public class Portfolio<node>{
 			throw new BalanceException();
 		}
 
-		int capablePurchaseQuantity = (int)(Math.floor((double)(balance/stocksStatus[index].Ask)));
+		int capablePurchaseQuantity = (int)(Math.floor((double)(balance/stocksStatus[index].ask)));
 		if (capablePurchaseQuantity < quantity){
 			throw new BalanceException();
 		}
@@ -197,7 +197,7 @@ public class Portfolio<node>{
 		}
 
 		for (int i = 0; i < portfolioSize; i++){//check if stocks exists
-			if (stocksStatus[i].getStockSymbol().equals(symbol)){
+			if (stocksStatus[i].getSymbol().equals(symbol)){
 				flag = true;
 				index = i;
 			}
@@ -208,12 +208,12 @@ public class Portfolio<node>{
 		} 
 
 		if (quantity == -1){
-			int numOfStocks = (int)(Math.floor((double)(balance/stocksStatus[index].Ask)));
+			int numOfStocks = (int)(Math.floor((double)(balance/stocksStatus[index].ask)));
 			this.stocksStatus[index].stockQuantity += numOfStocks;
-			updateBalance(-numOfStocks * stocksStatus[index].Ask);
+			updateBalance(-numOfStocks * stocksStatus[index].ask);
 		}
 
-		updateBalance(-quantity * this.stocksStatus[index].Ask);
+		updateBalance(-quantity * this.stocksStatus[index].ask);
 		this.stocksStatus[index].stockQuantity += quantity;
 	}
 
@@ -232,7 +232,7 @@ public class Portfolio<node>{
 		}
 
 		for (int i = 0; i < portfolioSize; i++){//find index of requested stock symbol
-			if (stocksStatus[i].getStockSymbol().equals(symbol)){
+			if (stocksStatus[i].getSymbol().equals(symbol)){
 				index = i;
 				flag = true;
 			}
@@ -250,7 +250,7 @@ public class Portfolio<node>{
 			quantity = this.stocksStatus[index].stockQuantity;
 		}
 
-		updateBalance (quantity * this.stocksStatus[index].Bid);
+		updateBalance (quantity * this.stocksStatus[index].bid);
 		this.stocksStatus[index].stockQuantity -= quantity;
 
 		if (this.stocksStatus[index].stockQuantity == 0){
@@ -288,7 +288,7 @@ public class Portfolio<node>{
 	public float getStocksValue (StockStatus [] stockStatus){
 		float stocksValue = 0;
 		for (int i = 0; i < portfolioSize; i++){
-			stocksValue += stockStatus[i].stockQuantity * stockStatus[i].Bid;
+			stocksValue += stockStatus[i].stockQuantity * stockStatus[i].bid;
 		}
 		return stocksValue;
 	}
@@ -309,6 +309,12 @@ public class Portfolio<node>{
 		DO_NOTHING(0), BUY(1) ,SELL(2);
 		private int recommend;
 		private ALGO_RECOMMENDATION(int recommend) {
+			this.setRecommend(recommend);
+		}
+		public int getRecommend() {
+			return recommend;
+		}
+		public void setRecommend(int recommend) {
 			this.recommend = recommend;
 		} 
 	}
@@ -321,7 +327,7 @@ public class Portfolio<node>{
 		{
 			if(this.stocksStatus[i] != null)
 			{
-				if(this.stocksStatus[i].getStockSymbol().toLowerCase().equalsIgnoreCase(symbol))	
+				if(this.stocksStatus[i].getSymbol().toLowerCase().equalsIgnoreCase(symbol))	
 					return this.stocksStatus[i];
 			}	
 		}

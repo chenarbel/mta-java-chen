@@ -7,60 +7,60 @@ import java.util.Date;
  * -insert value to otput string  
  * -use setters & getters
  * @author Chen Arbel
- * @since 3/12/14
+ * @since 3/12/14 (update- 4/2/15)
  */
 public class Stock {
 
 	//members
-	protected String StockSymbol;
-	protected float Ask;
-	protected float Bid;
-	protected java.util.Date Date;
+	protected String symbol;
+	protected float ask;
+	protected float bid;
+	protected java.util.Date date;
 
 	public Stock(){
-		StockSymbol = null;
-		Ask = 0;
-		Bid = 0;
-		Date = null;
+		symbol = null;
+		ask = 0;
+		bid = 0;
+		date = null;
 	}
 
 	//c'tor (overlodaing)
 	public Stock(String StockSymbol, float Ask, float Bid, java.util.Date Date){
-		this.StockSymbol = StockSymbol;
-		this.Ask = Ask;
-		this.Bid = Bid;
-		this.Date = Date;
+		this.symbol = StockSymbol;
+		this.ask = Ask;
+		this.bid = Bid;
+		this.date = Date;
 	}
 
 	//copy constructor
 	public Stock(Stock stock) {
-		this(stock.getStockSymbol(),stock.getAsk(),stock.getBid(),new Date(stock.Date.getTime()));
+		this(stock.getSymbol(),stock.getAsk(),stock.getBid(),new Date(stock.date.getTime()));
 	}
 
 	//setters & getters
-	public void setStockSymbol(String stockSymbol) {
-		StockSymbol = stockSymbol;
+	public void setSymbol(String stockSymbol) {
+		symbol = stockSymbol;
 	}
-	public String getStockSymbol() {
-		return StockSymbol;
+	public String getSymbol() {
+		return symbol;
 	}
 	public void setAsk(float ask) {
-		Ask = ask;
+		this.ask = ask;
 	}
 	public float getAsk() {
-		return Ask;
+		return ask;
 	}
 	public void setBid(float bid) {
-		Bid = bid;
+		this.bid = bid;
 	}
 	public float getBid() {
-		return Bid;
+		return bid;
 	}
 	public void setDate(java.util.Date date) {
-		Date = date;
+		this.date = date;
 	}
 	public java.util.Date getDate() {
-		return Date;
+		return date;
 	}	
 
 	/**
@@ -68,7 +68,7 @@ public class Stock {
 	 * @return thr fina string
 	 */
 	public String getHtmlDescription(){
-		String stockHtmlDetailsString = "<br><b>Stock symbol</b>: " +this.getStockSymbol()+  "<b> Ask</b>: " +this.getAsk()+ "<b> Bid</b>: "+this.getBid()+ "<b> Date</b>: " +this.getDate();
+		String stockHtmlDetailsString = "<br><b>Stock symbol</b>: " +this.getSymbol()+  "<b> Ask</b>: " +this.getAsk()+ "<b> Bid</b>: "+this.getBid()+ "<b> Date</b>: " +this.getDate();
 		return stockHtmlDetailsString;
 	}
 }

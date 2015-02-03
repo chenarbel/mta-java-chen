@@ -63,7 +63,7 @@ public class PortfolioService {
 		StockStatus[] stocks = getPortfolio().getStocks();
 		List<String> symbols = new ArrayList<>(Portfolio.SIZE);
 		for (StockStatus stockStatus : stocks) {
-			symbols.add(stockStatus.getStockSymbol());
+			symbols.add(stockStatus.getSymbol());
 		}
 		
 		List<StockStatus> update = new ArrayList<>(Portfolio.SIZE);
@@ -94,7 +94,7 @@ public class PortfolioService {
 			Stock stock = stocks[i];
 			
 			if(stock != null) {
-				List<StockStatus> history = datastoreService.getStockHistory(stock.getStockSymbol(), DAYS_BACK);
+				List<StockStatus> history = datastoreService.getStockHistory(stock.getSymbol(), DAYS_BACK);
 				
 				for (int j = 0; j < history.size(); j++) {
 					StockStatus curr = history.get(j);
